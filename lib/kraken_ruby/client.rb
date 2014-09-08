@@ -75,6 +75,7 @@ module Kraken
     end
 
     def query_orders(tx_ids, opts={})
+      opts['txid'] = tx_ids
       post_private 'QueryOrders', opts
     end
 
