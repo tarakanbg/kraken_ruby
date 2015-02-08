@@ -145,7 +145,11 @@ module Kraken
 
         url = @base_uri + url_path(method)
         r = self.class.post(url, { headers: headers, body: post_data }).parsed_response
-        r['error'].empty? ? r['result'] : r['error']
+        if r && r['error']
+          r['error'].empty? ? r['result'] : r['error']
+        else
+          r
+        end
       end
 
       # Generate a 64-bit nonce where the 32 high bits come directly from the current
