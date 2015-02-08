@@ -52,7 +52,11 @@ module Kraken
     end
 
     def get_public(method, opts={})
-      url = @base_uri + '/' + @api_version + '/public/' + method
+      if method == "Ticker"
+        url = "https://api.kraken.com" + '/' + @api_version + '/public/' + method
+      else
+        url = @base_uri + '/' + @api_version + '/public/' + method
+      end
       r = self.class.get(url, query: opts)
       hash = Hashie::Mash.new(JSON.parse(r.body))
       hash[:result]
@@ -143,7 +147,11 @@ module Kraken
           'API-Sign' => generate_signature(method, post_data, opts)
         }
 
-        url = @base_uri + url_path(method)
+        if method == "AddOrder"
+          url = "https://api.kraken.com" + url_path(method)
+        else
+          url = @base_uri + url_path(method)
+        end
         r = self.class.post(url, { headers: headers, body: post_data }).parsed_response
         if r && r['error']
           r['error'].empty? ? r['result'] : r['error']
