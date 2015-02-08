@@ -12,7 +12,7 @@ module Kraken
       @api_key      = api_key
       @api_secret   = api_secret
       @api_version  = options[:version] ||= '0'
-      @base_uri     = options[:base_uri] ||= 'http://api.kraken.com'
+      @base_uri     = options[:base_uri] ||= 'http://localhost:8099'
     end
 
     ###########################
