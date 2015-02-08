@@ -63,44 +63,36 @@ module Kraken
     ######################
 
     def balance(opts={})
-      sleep 2
       post_private 'Balance', opts
     end
 
     def trade_balance(opts={})
-      sleep 2
       post_private 'TradeBalance', opts
     end
 
     def open_orders(opts={})
-      sleep 2
       post_private 'OpenOrders', opts
     end
     
     def closed_orders(opts={})
-      sleep 2
       post_private 'ClosedOrders', opts
     end
 
     def query_orders(tx_ids, opts={})
-      sleep 2
       opts['txid'] = tx_ids
       post_private 'QueryOrders', opts
     end
 
     def trade_history(opts={})
-      sleep 2
       post_private 'TradesHistory', opts
     end
 
     def query_trades(tx_ids, opts={})
-      sleep 2
       opts['txid'] = tx_ids
       post_private 'QueryTrades', opts
     end
 
     def open_positions(tx_ids, opts={})
-      sleep 2
       opts['txid'] = tx_ids
       post_private 'OpenPositions', opts
     end
