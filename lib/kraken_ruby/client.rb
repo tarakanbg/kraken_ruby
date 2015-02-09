@@ -5,11 +5,7 @@ require 'httparty'
 require 'hashie'
 
 module Kraken
-  class Railties < ::Rails::Railtie
-    initializer 'Rails logger' do
-      Kraken.logger = Rails.logger
-    end
-  end
+  
   
   class Client
     include HTTParty
@@ -158,7 +154,7 @@ module Kraken
         else
           url = @base_uri + url_path(method)
         end
-        new_logger = Kraken.logger.new('log/kraken.log')
+        new_logger = Rails.logger.new('log/kraken.log')
         new_logger.info("#{Time.now}: Posting to #{url}")
         r = self.class.post(url, { headers: headers, body: post_data }).parsed_response
         if r && r['error']
