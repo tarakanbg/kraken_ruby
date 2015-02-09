@@ -15,6 +15,7 @@ module Kraken
       @api_secret   = api_secret
       @api_version  = options[:version] ||= '0'
       @base_uri     = options[:base_uri] ||= 'http://localhost:8099'
+      @new_logger   = Logger.new('log/kraken.log')
     end
 
     ###########################
@@ -154,13 +155,12 @@ module Kraken
         else
           url = @base_uri + url_path(method)
         end
-        new_logger = Rails.logger.new('log/kraken.log')
-        new_logger.info("#{Time.now}: Posting to #{url}")
+        @new_logger.info("#{Time.now}: Posting to #{url}")
         r = self.class.post(url, { headers: headers, body: post_data }).parsed_response
         if r && r['error']
           r['error'].empty? ? r['result'] : r['error']
           if r['error']
-            new_logger.error("#{Time.now}: Error: #{r['error']}")
+            @new_logger.error("#{Time.now}: Error: #{r['error']}")
           end
         else
           r
