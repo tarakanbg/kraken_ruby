@@ -152,9 +152,14 @@ module Kraken
         else
           url = @base_uri + url_path(method)
         end
+        new_logger = Logger.new('log/kraken.log')
+        new_logger.info("#{Time.now}: Posting to #{url}")
         r = self.class.post(url, { headers: headers, body: post_data }).parsed_response
         if r && r['error']
           r['error'].empty? ? r['result'] : r['error']
+          if r['error']
+            new_logger.error("#{Time.now}: Error: #{r['error']}")
+          end
         else
           r
         end
