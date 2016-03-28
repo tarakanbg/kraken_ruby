@@ -131,6 +131,15 @@ module Kraken
       opts = { txid: txid }
       post_private 'CancelOrder', opts
     end
+    
+    def withdraw_funds(opts={})
+      required_opts = %w{ asset key amount }
+      leftover = required_opts - opts.keys.map(&:to_s)
+      if leftover.length > 0
+        raise ArgumentError.new("Required options, not given. Input must include #{leftover}")
+      end
+      post_private 'Withdraw', opts
+    end
 
     #######################
     #### Generate Signed ##
@@ -148,7 +157,7 @@ module Kraken
           'API-Sign' => generate_signature(method, post_data, opts)
         }
 
-        if method == "AddOrder"
+        if method == "AddOrder" || method == "Withdraw"
           url = "https://api.kraken.com" + url_path(method)
         else
           url = @base_uri + url_path(method)
